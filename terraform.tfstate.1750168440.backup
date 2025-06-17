@@ -1,7 +1,7 @@
 {
   "version": 4,
   "terraform_version": "1.9.8",
-  "serial": 147,
+  "serial": 146,
   "lineage": "dc10433c-547f-1286-37b7-65aa371ed770",
   "outputs": {
     "alb_dns_name": {
@@ -1236,6 +1236,48 @@
           "dependencies": [
             "module.vpc.aws_vpc.main"
           ],
+          "create_before_destroy": true
+        }
+      ]
+    },
+    {
+      "module": "module.ecr",
+      "mode": "managed",
+      "type": "aws_ecr_repository",
+      "name": "app_repo",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:ecr:ap-south-1:486991249088:repository/my-app-repo",
+            "encryption_configuration": [
+              {
+                "encryption_type": "AES256",
+                "kms_key": ""
+              }
+            ],
+            "force_delete": null,
+            "id": "my-app-repo",
+            "image_scanning_configuration": [
+              {
+                "scan_on_push": true
+              }
+            ],
+            "image_tag_mutability": "MUTABLE",
+            "name": "my-app-repo",
+            "registry_id": "486991249088",
+            "repository_url": "486991249088.dkr.ecr.ap-south-1.amazonaws.com/my-app-repo",
+            "tags": {
+              "Name": "my-app-repo"
+            },
+            "tags_all": {
+              "Name": "my-app-repo"
+            },
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiZGVsZXRlIjoxMjAwMDAwMDAwMDAwfX0=",
           "create_before_destroy": true
         }
       ]

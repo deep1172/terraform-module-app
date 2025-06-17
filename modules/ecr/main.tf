@@ -8,6 +8,11 @@ resource "aws_ecr_repository" "app_repo" {
     encryption_type = "AES256"
   }
   force_delete = true
+  lifecycle {
+    prevent_destroy = true
+  }
+
+  
   tags = {
     Name = var.name
   }

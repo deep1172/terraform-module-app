@@ -6,9 +6,14 @@ module "vpc" {
   aws_region         = var.aws_region
 }
 
-module "ecr" {
+module "ecr_backend" {
   source = "./modules/ecr"
-  name   = var.ecr_repo_name
+  name   = "blog-backend"
+}
+
+module "ecr_frontend" {
+  source = "./modules/ecr"
+  name   = "blog-frontend"
 }
 
 module "iam" {
