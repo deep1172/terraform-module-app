@@ -1,4 +1,4 @@
-# modules/iam/main.tf
+# Updated IAM module with Secrets Manager access
 resource "aws_iam_role" "ec2_role" {
   name = "ec2_app_role"
   assume_role_policy = jsonencode({
@@ -17,23 +17,35 @@ resource "aws_iam_role" "ec2_role" {
 
 resource "aws_iam_policy" "ecr_policy" {
   name        = "ecr_read_policy"
-  description = "Policy to allow EC2 instance to read from ECR"
-  policy      = jsonencode({
+  description = "Policy to allow EC2 instance to read from ECR and AWS Secrets Manager"
+  policy = jsonencode({
     Version = "2012-10-17",
     Statement = [
       {
-        Effect   = "Allow",
-        Action   = [
+        Effect = "Allow",
+        Action = [
           "ecr:GetAuthorizationToken",
           "ecr:BatchCheckLayerAvailability",
           "ecr:GetDownloadUrlForLayer",
-          "ecr:BatchGetImage"
+          "ecr:BatchGetImage",
+          "ecr:DescribeRepositories"
         ],
         Resource = "*"
       },
       {
         Effect = "Allow",
-        Action = ["logs:CreateLogGroup", "logs:CreateLogStream", "logs:PutLogEvents"],
+        Action = [
+          "logs:CreateLogGroup",
+          "logs:CreateLogStream",
+          "logs:PutLogEvents"
+        ],
+        Resource = "*"
+      },
+      {
+        Effect = "Allow",
+        Action = [
+          "secretsmanager:GetSecretValue"
+        ],
         Resource = "*"
       }
     ]

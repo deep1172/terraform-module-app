@@ -1,5 +1,10 @@
 # modules/ecr/variables.tf
+variable "name_prefix" {
+  description = "Prefix for naming repositories"
+  type        = string
+}
+
 variable "name" {
-  description = "The name of the ECR repository"
+  description = "Name for the main ECR repository"
   type        = string
 }

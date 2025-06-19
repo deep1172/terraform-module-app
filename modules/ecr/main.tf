@@ -8,12 +8,17 @@ resource "aws_ecr_repository" "app_repo" {
     encryption_type = "AES256"
   }
   force_delete = true
-  lifecycle {
-    prevent_destroy = true
-  }
-
   
   tags = {
     Name = var.name
   }
 }
+
+resource "aws_ecr_repository" "backend" {
+  name = "${var.name_prefix}-backend"
+}
+
+resource "aws_ecr_repository" "frontend" {
+  name = "${var.name_prefix}-frontend"
+}
+

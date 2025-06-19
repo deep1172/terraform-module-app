@@ -1,3 +1,4 @@
+#terraform\modules\ec2-asg\main.tf
 resource "aws_launch_template" "app" {
   name_prefix   = "app-launch-template-"
   image_id      = data.aws_ami.ubuntu.id
@@ -5,9 +6,11 @@ resource "aws_launch_template" "app" {
   key_name      = var.ec2_key_name
   
   user_data = base64encode(templatefile("${path.module}/user_data.sh", {
-    ecr_repo_url = var.ecr_repo_url,
-    region       = var.aws_region
-  }))
+  aws_region         = var.aws_region,
+  ecr_registry   = var.ecr_registry,
+  backend_repo   = "blog-backend",
+  frontend_repo  = "blog-frontend"
+}))
 
   iam_instance_profile {
     name = var.iam_instance_profile
@@ -70,7 +73,8 @@ resource "aws_security_group" "ec2_sg" {
       from_port   = ingress.key
       to_port     = ingress.key
       protocol    = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
+      security_groups = ingress.key == 22 ? [var.bastion_sg_id] : null
+    cidr_blocks     = ingress.key == 22 ? null : ["0.0.0.0/0"]
     }
   }
 

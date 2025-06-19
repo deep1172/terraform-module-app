@@ -9,4 +9,10 @@ variable "ec2_key_name" {
   description = "The name of the EC2 key pair to use for SSH"
   type        = string
 }
-variable "bastion_sg_id" {}
+variable "ecr_registry" {
+  description = "The url of the ecr to pull the image"
+  type        = string
+}
+variable "bastion_sg_id" {
+  description = "Security Group ID of Bastion Host"
+}

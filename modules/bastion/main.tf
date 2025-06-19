@@ -36,7 +36,7 @@ resource "aws_instance" "bastion" {
     volume_size = 18               
     volume_type = "gp3"
   }
-
+depends_on = [aws_security_group.bastion_sg]
   tags = {
     Name = "bastion-host"
   }
